@@ -82,6 +82,10 @@ OK: 245 MiB in 46 packages
 
 Congrats, you have built your first Alpine package.
 
+## Let's go through the package APKBUILD spec
+
+To be updated.
+
 ## Submit a Merge request to Alpine's aports
 
 To be updated.
