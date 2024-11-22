@@ -86,7 +86,43 @@ Congrats, you have built your first Alpine package.
 
 To be updated.
 
+## Tips
+
+### Install LICENSE & README if present
+
+```
+install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+install -Dm644 -t "$pkgdir"/usr/share/doc/"$pkgname" README.md
+```
+
+### If you disable test, make sure to add a comment why you disable it
+
+```
+options="!check" # tests require root privileges (clone, etc...)
+```
+
+### Remember Alpine is using musl instead of glibc
+
+Example, you may face something like this
+
+```
+# github.com/containers/storage/pkg/unshare
+unshare.c: In function 'copy_self_proc_exe':
+unshare.c:235:19: warning: implicit declaration of function 'basename' [-Wimplicit-function-declaration]
+  235 |         exename = basename(argv[0]);
+      |                   ^~~~~~~~
+unshare.c:235:17: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  235 |         exename = basename(argv[0]);
+```
+
+This is serious and will segfault whenever possible.
+
+The program expects a glibc version of `basename()`. If that's the only function used, we can patch it by adding `#include <libgen.h>`. As long as they don't depend on glibc-specific features, this should be enough.
+
+
 ## Submit a Merge request to Alpine's aports
+
+First, you need to register an account with Alpine GitLab at https://gitlab.alpinelinux.org
 
 To be updated.
 
